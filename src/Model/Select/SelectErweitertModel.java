@@ -78,7 +78,7 @@ public class SelectErweitertModel extends Observable {
             pst = _conn.prepareStatement(query);
             // Query wird modifiziert
             result = pst.executeQuery();
-
+            
             while(result.next()){
                 String name = result.getString(Columnname);
                 // Speichern aktivitaetName in einer Arraylist

@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 
 /**
- * Created by annelie on 13.06.16.
+ * Created by annelie  and kourda on 13.06.16.
  */
 public class IndexUpdatePersonModel extends Observable {
 
@@ -22,6 +22,7 @@ public class IndexUpdatePersonModel extends Observable {
     private String suchQuery = "SELECT name, vorname, urz FROM student ORDER BY name";
     private String suchQueryUrz = "SELECT urz FROM student ORDER BY name LIMIT 1";
     public boolean suchErgebnis;
+
 
     public IndexUpdatePersonModel(){
         // Verbindung zum Datenbank hestellen.
@@ -94,6 +95,7 @@ public class IndexUpdatePersonModel extends Observable {
             ArrayList<String> zeile=new ArrayList<String>();
             while(result.next())
             {
+                
                 String urz = result.getString("urz");
                 String nameStudent = result.getString("name");
                 String vornameStudent = result.getString("vorname");

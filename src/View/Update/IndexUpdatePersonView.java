@@ -17,7 +17,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
 /**
- * Created by annelie on 13.06.16.
+ * Created by annelie and kourda on 13.06.16.
  */
 public class IndexUpdatePersonView extends JFrame implements Observer {
 

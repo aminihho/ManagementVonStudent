@@ -105,6 +105,7 @@ public class PdfModel extends Observable {
     }
 
     public void setPerson(String[] person){
+       
         this.person = person;
     }
 

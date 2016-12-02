@@ -49,9 +49,9 @@ public class Main {
 
         //SelectEinfachView fenster = new SelectEinfachView(new SelectEinfachModel(), "fenster");
 
-        //SelectErweitertView fenster = new SelectErweitertView(new SelectErweitertModel(), "");
+        SelectErweitertView fenster = new SelectErweitertView(new SelectErweitertModel(), "");
 
-        IndexUpdatePersonView fenster = new IndexUpdatePersonView(new IndexUpdatePersonModel(), "fenster");
+        //IndexUpdatePersonView fenster = new IndexUpdatePersonView(new IndexUpdatePersonModel(), "fenster");
 
         //IndexUpdateAktivitaetView fnster = new IndexUpdateAktivitaetView(new IndexUpdateAktivitaetModel(), "fenster");
 

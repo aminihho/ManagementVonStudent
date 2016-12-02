@@ -51,7 +51,7 @@ public class IndexUpdatePersonController implements MouseListener,KeyListener,Ac
     String UPDATE_STUDENT = "Person ändern oder löschen", UPDATE_AKTIVITAET = "Aktivität ändern oder löschen", UPDATE_STATUS = "Status ändern oder löschen", UPDATE_MASSNAHME = "Maßnahme ändern oder löschen";
     String SELECT_EINFACH = "Einfache Suche", SELECT_ERWEITERT = "Erweiterte Suche";
     String DATEI_DRUCKEN = "Drucken", DATEI_EXPO = "Exportieren", DATEI_PDF = "Datenbank als Pdf exportieren", DATEI_EXCEL = "Datenbank als Excel-Tabelle exportieren";
-
+    private int anzahl_Studnets = 0;
 
     /*---------------------------------------------------------------------------------------
      * Konstruktor setzt das MVC
@@ -142,13 +142,23 @@ public class IndexUpdatePersonController implements MouseListener,KeyListener,Ac
         view.updatePersonlicheInformation(person);
     }
 
+     
+    
+    
+    // gib die Anzhl der Studenten züruck. 
+    private ArrayList <ArrayList<String>> getStudentListe(){
+  
+        ArrayList <ArrayList<String>>  listeStudent = this.model.ListeAllerStudenten();
+         this.anzahl_Studnets = listeStudent.size(); 
+        return listeStudent;
+
+    }
 
     public void loadTabellePersonen(){
         Functions funktion = new Functions();
-        ArrayList <ArrayList<String>> listeStundent = this.model.ListeAllerStudenten();
-
-        if(listeStundent.size()>0){
-            String[][] studentData = funktion.arrayListTo2DArrayVonString(listeStundent);
+        ArrayList <ArrayList<String>>  listeStudent = this.getStudentListe(); 
+        if(listeStudent.size()>0){
+            String[][] studentData = funktion.arrayListTo2DArrayVonString(listeStudent);
             view.modelStudent.setDataVector(studentData, this.view.titelTabelleStudent);
         }
 
@@ -223,6 +233,8 @@ public class IndexUpdatePersonController implements MouseListener,KeyListener,Ac
 
 
     public void initView(String urz){
+        
+        
 
         // Tabelle Personen
         loadTabellePersonen();
@@ -319,45 +331,16 @@ public class IndexUpdatePersonController implements MouseListener,KeyListener,Ac
              * Tätigung des Print-Buttons
              */
             if (source == view.printBtn){
-
-                try {
-                    PdfModel pdfModel = new PdfModel();
-
-                    if(aktivitat != null && aktivitat.length > 0){
-                        System.out.println("hat aktivitaet");
-                        pdfModel.akt = true;
-                        pdfModel.setAktivitat(aktivitat);
-                    }
-
-                    if (status != null && status.length > 0){
-                        System.out.println("hat status");
-                        pdfModel.sta = true;
-                        pdfModel.setStatus(status);
-                    }
-
-                    if(bemerkung != null && bemerkung.length > 0){
-                        System.out.println("hat bemerkung");
-                        pdfModel.bem = true;
-                        pdfModel.setBemerkung(bemerkung);
-                    }
-
-                    if (person != null && person.length > 0){
-                        pdfModel.setPerson(person);
-                    }
-
-                    if(mob){
-                        pdfModel.mob = true;
-                    }
-
-                    else
-                        pdfModel.mob = false;
-
-                    PdfView test = new PdfView(pdfModel, "createPDF");
-
+               
+                this.getStudentListe();// Mann ruft die function, um die anzahl der Student zu bestement 
+                if(this.anzahl_Studnets == 1 ){
+                    this.CreatePdfDatei();
                 }
-                catch (Exception e){
-                    e.printStackTrace();
+                else{
+                    System.out.print("to do Create Excele");
+                    //to do Create Excel-Datei
                 }
+                
             }
         }
 
@@ -704,6 +687,49 @@ public class IndexUpdatePersonController implements MouseListener,KeyListener,Ac
     public void popupMenuCanceled(PopupMenuEvent popupMenuEvent) {
         //System.out.println("Canceled");
 
+    }
+    
+     // This Function create a Pdf for the selected person
+    private void CreatePdfDatei(){
+        
+                try {
+                    PdfModel pdfModel = new PdfModel();
+
+                    if(aktivitat != null && aktivitat.length > 0){
+                        System.out.println("hat aktivitaet");
+                        pdfModel.akt = true;
+                        pdfModel.setAktivitat(aktivitat);
+                    }
+
+                    if (status != null && status.length > 0){
+                        System.out.println("hat status");
+                        pdfModel.sta = true;
+                        pdfModel.setStatus(status);
+                    }
+
+                    if(bemerkung != null && bemerkung.length > 0){
+                        System.out.println("hat bemerkung");
+                        pdfModel.bem = true;
+                        pdfModel.setBemerkung(bemerkung);
+                    }
+
+                    if (person != null && person.length > 0){
+                        pdfModel.setPerson(person);
+                    }
+
+                    if(mob){
+                        pdfModel.mob = true;
+                    }
+
+                    else
+                        pdfModel.mob = false;
+
+                    PdfView test = new PdfView(pdfModel, "createPDF");
+
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
     }
 
 
