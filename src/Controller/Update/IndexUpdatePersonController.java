@@ -5,6 +5,7 @@ import Model.Insert.*;
 import Model.Select.SelectEinfachModel;
 import Model.Select.SelectErweitertModel;
 import Model.Sonstiges.Functions;
+import Model.Sonstiges.GeneralSqlAbfragen;
 import Model.Sonstiges.PdfModel;
 
 import Model.Update.*;
@@ -26,6 +27,7 @@ import java.awt.Point;
 import javax.swing.JTable;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+import org.json.JSONObject;
 
 /**
  * Created by annelie und Bani.
@@ -61,6 +63,23 @@ public class IndexUpdatePersonController implements MouseListener,KeyListener,Ac
         this.view = view;
     }
 
+    
+    // use in Excel 
+    private ArrayList<ArrayList<String>> getAlleAktivitaetenEinesStudent (String urz){
+          Functions funktion = new Functions();
+        ArrayList <ArrayList<String>> listeAktivitaet = this.model.ListeAlleAktivitaeten(urz);
+
+        if(listeAktivitaet.size()>0){
+            ArrayList<String> listeAkti = funktion.arrayListe2DTo1DArrayListe(listeAktivitaet);
+            ArrayList<ArrayList<String>> listeAktivitaeten = model.listeAktivitatmitMobilitaet(listeAkti,urz);
+            return listeAktivitaeten; 
+        }
+        
+        return new ArrayList<ArrayList<String>>(); 
+    }
+    
+    
+    
     public void loadTabelleAktivität(String urz){
 
         Functions funktion = new Functions();
@@ -337,7 +356,11 @@ public class IndexUpdatePersonController implements MouseListener,KeyListener,Ac
                     this.CreatePdfDatei();
                 }
                 else{
-                    System.out.print("to do Create Excele");
+                    String query = model.getScuhQuery(); 
+                    query = query.replace("name, vorname, student.urz", "student.urz");
+                    
+                    this.getAlleInofrmorationAllerUser(query);
+                    System.out.print("sql--->"+query);
                     //to do Create Excel-Datei
                 }
                 
@@ -730,6 +753,48 @@ public class IndexUpdatePersonController implements MouseListener,KeyListener,Ac
                 catch (Exception e){
                     e.printStackTrace();
                 }
+    }
+    
+    
+    private void AddStudentInformationToJsonObjekt(JSONObject mainObject, String object_i,String[] informationStuden, String[][] list_aktivitaten, String[] list_status, String[] list_Bermerkung   ){
+        // to do Create Structure  JsonObject 
+        
+        
+        
+    }
+    
+    
+    
+    public ArrayList<ArrayList<String>> getAlleInofrmorationAllerUser (String query){
+        JSONObject mainObject = new JSONObject(); 
+        Functions fq = new Functions(); 
+        ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>() ; 
+        GeneralSqlAbfragen function =  new GeneralSqlAbfragen(); 
+        ArrayList <String> listeStudenten = function.Select(query, "urz");
+        if(listeStudenten.isEmpty()){
+            return result; 
+        }
+        for(int i =0; i< listeStudenten.size(); i++)
+        {
+            String urz = listeStudenten.get(i);
+            // speiechern alle Information über ein Student
+            ArrayList<String> listeInformationStudent = model.ListeInformationStudent(urz); 
+            String[] liste_information_student = fq.arrayListTo1DString(listeInformationStudent);
+            // Liste Akitvität mit Moblität für ein Student
+            ArrayList <ArrayList<String>> listeAktivitatmitMobilitat = this.getAlleAktivitaetenEinesStudent(urz);
+            String [][] aktivitaten = fq.arrayListTo2DArrayVonString(listeAktivitatmitMobilitat);
+            // Speichern alle Status für ein Student 
+            ArrayList<ArrayList<String>> listeAlleStatus = model.ListeAlleStatus(urz);
+            String [] status = fq.arrayListTo1DString( fq.arrayListe2DTo1DArrayListe(listeAlleStatus) );
+            // Speichern alle Bermerkungen eines Students
+            ArrayList<ArrayList<String>> listeBermerkungen = model.ListeBermerkungen(urz);
+            String [] bemerkungen = fq.arrayListTo1DString( fq.arrayListe2DTo1DArrayListe(listeBermerkungen) );
+            String object_i = "Student_"+i;
+           this.AddStudentInformationToJsonObjekt(mainObject, object_i, liste_information_student, aktivitaten, status, bemerkungen);
+            
+            
+        }
+        return result;
     }
 
 

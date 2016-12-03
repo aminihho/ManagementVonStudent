@@ -2,6 +2,7 @@ package Model.Update;
 
 import Model.Sonstiges.Connection_DB;
 import Model.Sonstiges.Functions;
+import Model.Sonstiges.GeneralSqlAbfragen;
 
 import java.util.Observable;
 import java.util.ArrayList;
@@ -72,7 +73,9 @@ public class IndexUpdatePersonModel extends Observable {
     public void setSuchQuery(String query){
         this.suchQuery = query;
     }
-
+    public String getScuhQuery(){
+        return this.suchQuery; 
+    }
     public void setSuchQueryUrz(String query){
         this.suchQueryUrz = query;
     }
@@ -625,7 +628,9 @@ public class IndexUpdatePersonModel extends Observable {
             return  false;
         }
     }
-
+    
+    
+   
 
 
 }
