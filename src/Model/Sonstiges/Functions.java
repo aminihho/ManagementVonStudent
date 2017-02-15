@@ -145,7 +145,7 @@ public class Functions {
             status = status.replaceAll("\\s","");
             status = status.toLowerCase();
 
-            System.out.println(status +" und " + stripedValue);
+         
 
             if(status.equals(stripedValue)){
                 return true;
@@ -175,8 +175,7 @@ public class Functions {
 
 
             if(valueList.equals(value1) && (!value1.equals(value2))){
-                System.out.println(valueList +" und " + stripedValue1);
-                System.out.println(stripedValue2 +" nicht gleich " + stripedValue1);
+        
                 return true;
             }
 

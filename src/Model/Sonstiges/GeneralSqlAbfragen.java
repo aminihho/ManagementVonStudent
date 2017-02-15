@@ -26,7 +26,7 @@ public class GeneralSqlAbfragen {
     public boolean ZeileVonTabelleLöschen (String tabelleName,String spalteName,String value) {
         String query="DELETE FROM " + tabelleName +" WHERE " + spalteName +" = '" + value + "';";
 
-        System.out.println(query);
+        
 
         try{
 
@@ -45,7 +45,7 @@ public class GeneralSqlAbfragen {
         catch(SQLException exception ){
 
             fehlerString = exception.getMessage();
-            System.out.println(fehlerString);
+            System.out.println("Fehler String: "+fehlerString);
 
             return false;
         }

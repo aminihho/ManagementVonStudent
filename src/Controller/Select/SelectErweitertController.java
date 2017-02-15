@@ -110,7 +110,6 @@ public class SelectErweitertController implements ActionListener,KeyListener {
              * Betätigung vom Zurück-Button
              */
             if (source.equals(_view.zurueck)) {
-                System.out.println("User will zurueck");
                 _view.setVisible(false);
                 IndexUpdatePersonView fenster = new IndexUpdatePersonView(new IndexUpdatePersonModel(), "InProTUC Datenbank | Person ändern");
             }
@@ -160,30 +159,22 @@ public class SelectErweitertController implements ActionListener,KeyListener {
                  * Attribut bei Student
                  */
                 if (wahlAttr.equals("Student - Nachname")){
-                    System.out.println(wahlAttr);
                     attribut = "name";
-                    System.out.println(attribut);
                 }
 
 
                 if (wahlAttr.equals("Student - Vorname")){
-                    System.out.println(wahlAttr);
                     attribut = "vorname";
-                    System.out.println(attribut);
                 }
 
 
                 if (wahlAttr.equals("Urz (TUC)")){
-                    System.out.println(wahlAttr);
                     attribut = "urztuc";
-                    System.out.println(attribut);
                 }
 
 
                 if (wahlAttr.equals("Fakultät")){
-                    System.out.println(wahlAttr);
                     attribut = "fakultaet";
-                    System.out.println(attribut);
                 }
 
 
@@ -338,13 +329,11 @@ public class SelectErweitertController implements ActionListener,KeyListener {
                 }
 
                 if(student){
-                    System.out.println("Kein Join");
                     query = "SELECT DISTINCT name, vorname, urz FROM student";
                     queryUrz = "SELECT urz FROM student";
                 }
 
                 if((aktivitaet) && (!status)){
-                    System.out.println("Nur Aktivitaet");
 
                     query = "SELECT DISTINCT name, vorname, student.urz FROM student  " +
                             "INNER JOIN s_m_a ON student.urz = s_m_a.urz  " +
@@ -357,7 +346,6 @@ public class SelectErweitertController implements ActionListener,KeyListener {
                 }
 
                 if((!aktivitaet) && (status)){
-                    System.out.println("Nur Status");
 
                     query = "SELECT DISTINCT name, vorname, student.urz FROM student " +
                             "INNER JOIN student_status ON student_status.urz = student.urz  ";
@@ -366,7 +354,6 @@ public class SelectErweitertController implements ActionListener,KeyListener {
                 }
 
                 if((aktivitaet) && (status)){
-                    System.out.println("Join mit Status und Aktivitaet");
 
                     query = "SELECT DISTINCT name, vorname, student.urz FROM student " +
                             "INNER JOIN student_status ON student_status.urz = student.urz " +
@@ -381,14 +368,9 @@ public class SelectErweitertController implements ActionListener,KeyListener {
                 }
 
                 if((!search2) && (!search3)){
-                    System.out.println(attribut);
 
                     query = query + " WHERE " + attribut + " = " + "'" + wert + "';";
                     queryUrz = queryUrz + " WHERE " + attribut + " = " + "'" + wert + "' ORDER BY name LIMIT 1;";
-
-
-                    System.out.println(query);
-                    System.out.println(queryUrz);
 
                     boolean queryNotEmpty = _model.queryNotEmpty(query);
 
@@ -423,9 +405,6 @@ public class SelectErweitertController implements ActionListener,KeyListener {
                         queryUrz = queryUrz + attachment2;
                         queryUrz = queryUrz + "ORDER BY name LIMIT 1;";
 
-                        System.out.println(query);
-                        System.out.println(queryUrz);
-
                         boolean queryNotEmpty = _model.queryNotEmpty(query);
 
                         if(queryNotEmpty){
@@ -456,8 +435,6 @@ public class SelectErweitertController implements ActionListener,KeyListener {
                         queryUrz = queryUrz + attachment1;
                         queryUrz = queryUrz + "ORDER BY name LIMIT 1;";
 
-                        System.out.println(query);
-                        System.out.println(queryUrz);
                         boolean queryNotEmpty = _model.queryNotEmpty(query);
 
                         if(queryNotEmpty){
@@ -490,8 +467,6 @@ public class SelectErweitertController implements ActionListener,KeyListener {
                         queryUrz = queryUrz + attachment1 + attachment2;
                         queryUrz = queryUrz  + "ORDER BY name LIMIT 1;";
 
-                        System.out.println(query);
-                        System.out.println(queryUrz);
                         boolean queryNotEmpty = _model.queryNotEmpty(query);
 
                         if(queryNotEmpty){
@@ -525,9 +500,6 @@ public class SelectErweitertController implements ActionListener,KeyListener {
                         queryUrz = queryUrz + attachment2;
                         queryUrz = queryUrz + "ORDER BY name LIMIT 1;";
 
-                        System.out.println(query);
-                        System.out.println(queryUrz);
-
                         boolean queryNotEmpty = _model.queryNotEmpty(query);
 
                         if(queryNotEmpty){
@@ -558,8 +530,6 @@ public class SelectErweitertController implements ActionListener,KeyListener {
                         queryUrz = queryUrz + attachment1;
                         queryUrz = queryUrz + "ORDER BY name LIMIT 1;";
 
-                        System.out.println(query);
-                        System.out.println(queryUrz);
                         boolean queryNotEmpty = _model.queryNotEmpty(query);
 
                         if(queryNotEmpty){
@@ -591,9 +561,6 @@ public class SelectErweitertController implements ActionListener,KeyListener {
                         attachment2 = " OR "  + attribut3 + " = " + "'" + wert3 + "'";
                         queryUrz = queryUrz + attachment1 + attachment2;
                         queryUrz = queryUrz + "ORDER BY name LIMIT 1;";
-
-                        System.out.println(query);
-                        System.out.println(queryUrz);
 
                         boolean queryNotEmpty = _model.queryNotEmpty(query);
 
@@ -635,7 +602,6 @@ public class SelectErweitertController implements ActionListener,KeyListener {
 
                 if (!wahlAttr.equals("-")) {
                     _view.wertCB.setEnabled(true);
-                    System.out.println("wahlattribut: " + wahlAttr);
                 }
 
                 if(wahlAttr.equals("Student - Nachname")){
@@ -717,7 +683,6 @@ public class SelectErweitertController implements ActionListener,KeyListener {
 
                 if (!wahlAttr2.equals("-")) {
                     _view.wertCB2.setEnabled(true);
-                    System.out.println("wahlattribut2: " + wahlAttr2);
                 }
 
                 if(wahlAttr2.equals("Student - Nachname")){
@@ -800,7 +765,6 @@ public class SelectErweitertController implements ActionListener,KeyListener {
 
                 if (!wahlAttr3.equals("-")) {
                     _view.wertCB3.setEnabled(true);
-                    System.out.println("wahlattribut3: " + wahlAttr3);
                 }
 
                 if(wahlAttr3.equals("Student - Nachname")){

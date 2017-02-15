@@ -72,7 +72,7 @@ public class InsertStatusModelKlein extends Observable {
             pst = conn.prepareStatement(query);
             pst.setString(1, nameStatus);
 
-            System.out.println("Query: " + pst);
+            
 
             // ein Abfrage auf die Tabelle
             pst.executeUpdate();

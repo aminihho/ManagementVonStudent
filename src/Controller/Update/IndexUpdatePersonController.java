@@ -757,9 +757,11 @@ public class IndexUpdatePersonController implements MouseListener,KeyListener,Ac
     
     
     private void AddStudentInformationToJsonObjekt(JSONObject mainObject, String object_i,String[] informationStuden, String[][] list_aktivitaten, String[] list_status, String[] list_Bermerkung   ){
-        // to do Create Structure  JsonObject 
         
         
+    for(int i=0; i<informationStuden.length; i++){
+        System.out.print("infoStuden-->"+informationStuden[i]+"\t");
+    }    
         
     }
     
@@ -791,7 +793,7 @@ public class IndexUpdatePersonController implements MouseListener,KeyListener,Ac
             String [] bemerkungen = fq.arrayListTo1DString( fq.arrayListe2DTo1DArrayListe(listeBermerkungen) );
             String object_i = "Student_"+i;
            this.AddStudentInformationToJsonObjekt(mainObject, object_i, liste_information_student, aktivitaten, status, bemerkungen);
-            
+            System.out.println("_____________________");
             
         }
         return result;

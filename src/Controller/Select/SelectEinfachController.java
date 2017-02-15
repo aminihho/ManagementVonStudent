@@ -151,7 +151,6 @@ public class SelectEinfachController implements ActionListener,KeyListener {
          */
         if (source instanceof JButton) {
             if (source.equals(_view.zurueck)) {
-                System.out.println("User will zurueck");
                 _view.setVisible(false);
                 IndexUpdatePersonView fenster = new IndexUpdatePersonView(new IndexUpdatePersonModel(), "InProTUC Datenbank | Person ändern");
             }
@@ -162,15 +161,11 @@ public class SelectEinfachController implements ActionListener,KeyListener {
             if (source.equals(_view.senden)) {
 
                 Object wert = _view.wertCB.getSelectedItem();
-                System.out.println("Attribut: " + wahlAttr);
-                System.out.println("Wert: " + wert);
 
                 if(wahlAttr.equals("Student - Nachname")) {
 
                     query = "SELECT name, vorname, urz FROM student WHERE name = '"+ wert +"' ORDER BY name;";
                     queryUrz = "SELECT urz FROM student WHERE name = '"+ wert +"' ORDER BY name LIMIT 1;";
-
-                    System.out.println(queryUrz);
 
                     boolean queryNotEmpty = _model.queryNotEmpty(query);
 
@@ -310,8 +305,6 @@ public class SelectEinfachController implements ActionListener,KeyListener {
                                 "INNER JOIN aktivitaet ON aktivitaet.aktivitaet_name = m_a.aktivitaet_name  " +
                                 "WHERE aktivitaet.aktivitaet_name = '"+ wertString +"' ORDER BY name LIMIT 1;";
 
-                     System.out.println(wertString);
-                     System.out.println(query);
 
                      boolean queryNotEmpty = _model.queryNotEmpty(query);
 

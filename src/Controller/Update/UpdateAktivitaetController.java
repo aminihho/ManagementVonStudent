@@ -198,7 +198,6 @@ public class UpdateAktivitaetController implements ActionListener, KeyListener, 
         Object source = e.getKeyCode();
 
         if(source == 10){
-            System.out.println("enter");
             String zeitraum = view.textZeitraum.getText();
             String beschreibung = view.textBeschreibung.getText();
             String aktName = view.aktName.getText();
@@ -211,7 +210,6 @@ public class UpdateAktivitaetController implements ActionListener, KeyListener, 
 
             else {
                 String hatMassnahme = model.returnMassnahmeVonAktivitaet(aktNameAlt);
-                System.out.println("massnahme: " + hatMassnahme + " Der Aktivitaet " + aktNameAlt);
 
                 // Die Aktivitaet HAT MASSNAHME (Eintrag in m_a)
                 if(!hatMassnahme.equals("")){

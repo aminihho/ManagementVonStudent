@@ -426,7 +426,6 @@ public class IndexUpdatePersonModel extends Observable {
 
                 ArrayList<String> mob = hatMobilitaet(id_s_m_a);
                 if(!mob.isEmpty()){
-                    System.out.println("hellow");
                     durchfuehrung = mob.get(0);
                     art = mob.get(1);
                 }

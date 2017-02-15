@@ -107,7 +107,7 @@ public class IndexUpdateAktivitaetModel extends Observable {
             System.out.println(exception);
 
             fehlerString = exception.getMessage();
-            System.out.println(fehlerString);
+            System.out.println("Fehler String: "+fehlerString);
         }
 
 
@@ -164,7 +164,7 @@ public class IndexUpdateAktivitaetModel extends Observable {
     public boolean deleteAktivitaet(String nameAkt){
 
         String query= "DELETE FROM aktivitaet WHERE aktivitaet_name = '"+nameAkt+"';";
-        System.out.println(query);
+        
 
         try{
             // ein Objekt der Klasse PrepareStatement wird  erzeugt.
@@ -178,7 +178,7 @@ public class IndexUpdateAktivitaetModel extends Observable {
         catch(SQLException exception ){
 
             fehlerString = exception.getMessage();
-            System.out.println(fehlerString);
+            System.out.println("Fehler Sting:"+fehlerString);
 
             return false;
         }

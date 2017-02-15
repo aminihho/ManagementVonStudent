@@ -118,7 +118,7 @@ public class UpdateAktivitaetModel extends Observable {
 
             // ein Objekt der Klasse PrepareStatement wird  erzeugt.
             pst = conn.prepareStatement(query);
-            System.out.println("Query: " + pst);
+            
 
             // ein Abfrage auf die Tabelle
             pst.executeUpdate();
@@ -132,7 +132,7 @@ public class UpdateAktivitaetModel extends Observable {
             System.out.println(exception);
 
             fehlerString = exception.getMessage();
-            System.out.println(fehlerString);
+            System.out.println("Fehler String: "+fehlerString);
 
             return false;
         }
@@ -174,7 +174,7 @@ public class UpdateAktivitaetModel extends Observable {
             System.out.println(exception);
 
             fehlerString = exception.getMessage();
-            System.out.println(fehlerString);
+            System.out.println("Fehler String: "+fehlerString);
         }
 
 
@@ -189,7 +189,6 @@ public class UpdateAktivitaetModel extends Observable {
 
             // ein Objekt der Klasse PrepareStatement wird  erzeugt.
             pst = conn.prepareStatement(query);
-            System.out.println("Query: " + pst);
 
             // ein Abfrage auf die Tabelle
             pst.executeUpdate();
@@ -203,7 +202,7 @@ public class UpdateAktivitaetModel extends Observable {
             System.out.println(exception);
 
             fehlerString = exception.getMessage();
-            System.out.println(fehlerString);
+            System.out.println("Fehler String: "+fehlerString);
 
             return false;
         }
@@ -218,7 +217,7 @@ public class UpdateAktivitaetModel extends Observable {
 
             // ein Objekt der Klasse PrepareStatement wird  erzeugt.
             pst = conn.prepareStatement(query);
-            System.out.println("Query: " + pst);
+           
 
             // ein Abfrage auf die Tabelle
             pst.executeUpdate();

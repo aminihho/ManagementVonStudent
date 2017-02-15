@@ -50,6 +50,8 @@ public class UpdatePersonController implements ActionListener, KeyListener,Mouse
 
     }
 
+    
+    
     public void loadTabelleAktivität(String urz){
         Functions funktion = new Functions();
 
@@ -62,15 +64,12 @@ public class UpdatePersonController implements ActionListener, KeyListener,Mouse
             mob = funktion.mobExists(aktivitat);
 
             if(mob){
-                System.out.println("mob");
 
                 String[] titleTabelle = {"Aktivität","Id der Aktivität","Zeitraum","Durchfürung","Art",""};
                 view.setDataVector(aktivitat,view.modelAktivitaet,view.tableAktivitaet,"Aktivitat", titleTabelle);
             }
 
             else{
-                System.out.println("not mob");
-
                 String[] titleTabelle = {"Aktivität","Id der Aktivität","Zeitraum",""};
                 view.setDataVector(aktivitat,view.modelAktivitaet,view.tableAktivitaet,"Aktivitat", titleTabelle);
             }
@@ -115,7 +114,6 @@ public class UpdatePersonController implements ActionListener, KeyListener,Mouse
         ArrayList <ArrayList<String>> listeBemerkungen = this.model.listeBemerkungen(urz);
 
         if(listeBemerkungen.size()>0){
-            System.out.println("student hat bemerkung");
 
             String[][] bemerkungenData = funktion.arrayListTo2DArrayVonString(listeBemerkungen);
             String[] titleBem={"Bemerkung",""};
@@ -264,7 +262,6 @@ public class UpdatePersonController implements ActionListener, KeyListener,Mouse
                     // Überprüfen, ob die Person den Status1 schon registriert hat
                     String query = "SELECT urz, status_typ FROM student_status WHERE urz = '"+ urz +"' AND status_typ = '"+ neuStatus +"';";
                     String[] spalten = {"urz", "status_typ"};
-                    System.out.println(query);
                     ArrayList<String> wiederholung = model.selectMultiple(query, spalten);
 
                     if(!wiederholung.isEmpty()){
@@ -322,9 +319,6 @@ public class UpdatePersonController implements ActionListener, KeyListener,Mouse
                 int defaultIDAktivitaet = modelAktAendern.findId_m_a(nameAktivitaet);
                 Object defaultObject = beschAktivitaet + " – " + nameAktivitaet;
 
-                System.out.println("Aktivitaet zu ersetzen = " + defaultObject);
-                System.out.println("ID der Aktivitaet = " + defaultIDAktivitaet);
-
                 modelAktAendern.setUrz(urz);
                 modelAktAendern.setDefaultObject(defaultObject);
                 modelAktAendern.setDefaultIDAktivitaet(defaultIDAktivitaet);
@@ -355,9 +349,6 @@ public class UpdatePersonController implements ActionListener, KeyListener,Mouse
 
                 String message2 = "Zu ersetzen: " + alteBemerkung + ".\nGeben Sie neue Werte ein.";
                 String neueValue = dialog.dialogFensterInputText(view, message2, "Bemerkung ändern");
-
-                System.out.println(alteBemerkung);
-                System.out.println(neueValue);
 
                 if(!neueValue.equals("")){
                     ArrayList<ArrayList<String>> listeBemerkungen = model.listeBemerkungen(urz);
@@ -423,11 +414,6 @@ public class UpdatePersonController implements ActionListener, KeyListener,Mouse
                 ArrayList<String> listeUrz = model.listeUrzTuc();
                 boolean wiederholung = funktion.existsOnce(urzTuc, defaultUrzTuc, listeUrz);
 
-                System.out.println("default urztuc: " + defaultUrzTuc);
-                System.out.println("einagbe urztuc: " + urzTuc);
-                System.out.println("einagbe name: " + name);
-                System.out.println("einagbe vorname: " + vorname);
-
                 if(name.equals("")){
                     dialog.errorDialog(view, "Bitte geben Sie den Nachnamen der Person ein");
                 }
@@ -441,7 +427,6 @@ public class UpdatePersonController implements ActionListener, KeyListener,Mouse
                 }
 
                 if(wiederholung){
-                    System.out.println("wiederholung urz");
                     dialog.errorDialog(view, "Der eingegebene Urz-Kürzel existiert bereits");
                 }
 
@@ -449,7 +434,6 @@ public class UpdatePersonController implements ActionListener, KeyListener,Mouse
                 if((!name.equals(""))&&(!vorname.equals("")) && (!urzTuc.equals("")) && (!wiederholung)) {
 
                     String query="UPDATE student SET name= '"+name+"',vorname= '"+vorname+"', urztuc ='"+urzTuc+"', geburtsdatum= '"+gD+"',fakultaet= '"+fk+"',telefon= '"+telefon+"',email= '"+email+"' where urz='"+urz+"'";
-                    System.out.println(query);
 
                     boolean statusAbfrage = model.UpdateZeileVonTabelle(query);
 
@@ -502,7 +486,6 @@ public class UpdatePersonController implements ActionListener, KeyListener,Mouse
          * Aktivität einer Person löschen
          */
         if(source== view.btndelAkt){
-            System.out.println("Aktivität einer Person löschen");
 
             int row =view.tableAktivitaet.getSelectedRow();
             String beschreibungAkt = view.tableAktivitaet.getValueAt(row, 0).toString();
@@ -577,7 +560,6 @@ public class UpdatePersonController implements ActionListener, KeyListener,Mouse
             int res = dialog.dialogFensterFragen(view, "Möchten Sie die Bemerkung wirklich löschen?","Bemerkung löschen");
 
             if(res==0){
-                System.out.println("löschen: " + value);
                 String query = "DELETE FROM student_bem WHERE bemerkung = '"+value+"';";
                 boolean ergebnis = model.UpdateZeileVonTabelle(query);
 
@@ -650,11 +632,6 @@ public class UpdatePersonController implements ActionListener, KeyListener,Mouse
                 ArrayList<String> listeUrz = model.listeUrzTuc();
                 boolean wiederholung = funktion.existsOnce(urzTuc, defaultUrzTuc, listeUrz);
 
-                System.out.println("default urztuc: " + defaultUrzTuc);
-                System.out.println("einagbe urztuc: " + urzTuc);
-                System.out.println("einagbe name: " + name);
-                System.out.println("einagbe vorname: " + vorname);
-
                 if(name.equals("")){
                     dialog.errorDialog(view, "Bitte geben Sie den Nachnamen der Person ein");
                 }
@@ -668,7 +645,6 @@ public class UpdatePersonController implements ActionListener, KeyListener,Mouse
                 }
 
                 if(wiederholung){
-                    System.out.println("wiederholung urz");
                     dialog.errorDialog(view, "Der eingegebene Urz-Kürzel existiert bereits");
                 }
 
@@ -676,7 +652,6 @@ public class UpdatePersonController implements ActionListener, KeyListener,Mouse
                 if((!name.equals(""))&&(!vorname.equals("")) && (!urzTuc.equals("")) && (!wiederholung)) {
 
                     String query="UPDATE student SET name= '"+name+"',vorname= '"+vorname+"', urztuc ='"+urzTuc+"', geburtsdatum= '"+gD+"',fakultaet= '"+fk+"',telefon= '"+telefon+"',email= '"+email+"' where urz='"+urz+"'";
-                    System.out.println(query);
 
                     boolean statusAbfrage = model.UpdateZeileVonTabelle(query);
 
@@ -730,8 +705,6 @@ public class UpdatePersonController implements ActionListener, KeyListener,Mouse
             if((row>=0)&&(column>=0)){
                 beschreibungAkt = view.tableAktivitaet.getValueAt(row, 0);
                 nameAkt = view.tableAktivitaet.getValueAt(row, 1);
-
-                System.out.println("popup Status: " + nameAkt);
             }
         }
 
@@ -744,8 +717,6 @@ public class UpdatePersonController implements ActionListener, KeyListener,Mouse
 
             if((row>=0)&&(column>=0)){
                 popupValue = view.tableStatus.getValueAt(row, 0);
-
-                System.out.println("popup Status: " + popupValue);
             }
         }
 
@@ -759,7 +730,6 @@ public class UpdatePersonController implements ActionListener, KeyListener,Mouse
             if((row>=0)&&(column>=0)){
                 popupValue = view.tableBemerkung.getValueAt(row, 0);
 
-                System.out.println("popup Bemerkung: " + popupValue);
             }
         }
     }

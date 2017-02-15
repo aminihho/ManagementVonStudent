@@ -572,7 +572,6 @@ public class UpdatePersonModel extends Observable  {
 
             // ein Objekt der Klasse PrepareStatement wird  erzeugt.
             pst = conn.prepareStatement(query);
-            System.out.println("Query: " + pst);
 
             // ein Abfrage auf die Tabelle
             pst.executeUpdate();
@@ -586,7 +585,7 @@ public class UpdatePersonModel extends Observable  {
             System.out.println(exception);
 
             fehlerString = exception.getMessage();
-            System.out.println(fehlerString);
+            System.out.println("Fehller Sting: "+fehlerString);
 
             return false;
         }
@@ -601,7 +600,6 @@ public class UpdatePersonModel extends Observable  {
 
             // ein Objekt der Klasse PrepareStatement wird  erzeugt.
             pst = conn.prepareStatement(query);
-            System.out.println("Query: " + pst);
 
             // ein Abfrage auf die Tabelle
             pst.executeUpdate();
@@ -615,7 +613,7 @@ public class UpdatePersonModel extends Observable  {
             System.out.println(exception);
 
             fehlerString = exception.getMessage();
-            System.out.println(fehlerString);
+            System.out.println("Fehler String: "+fehlerString);
 
             return false;
         }
@@ -633,7 +631,6 @@ public class UpdatePersonModel extends Observable  {
             pst = conn.prepareStatement(query);
             //pst.setString(0, nameAkt);
 
-            System.out.println(query);
 
             // ein Abfrage auf die Tabelle
             result = pst.executeQuery();
@@ -653,7 +650,7 @@ public class UpdatePersonModel extends Observable  {
             System.out.println(exception);
 
             fehlerString = exception.getMessage();
-            System.out.println(fehlerString);
+            System.out.println("Fehler String: "+fehlerString);
 
             return 0;
         }
@@ -688,7 +685,7 @@ public class UpdatePersonModel extends Observable  {
             System.out.println(exception);
 
             fehlerString = exception.getMessage();
-            System.out.println(fehlerString);
+            System.out.println("Fehler String:"+fehlerString);
         }
 
         return urztuc;

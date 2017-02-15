@@ -73,7 +73,7 @@ public class InsertMassnahmeModel extends Observable {
             pst = conn.prepareStatement(query);
             pst.setString(1, nameMassnahme);
 
-            System.out.println("Query: " + pst);
+            
 
             // ein Abfrage auf die Tabelle
             pst.executeUpdate();

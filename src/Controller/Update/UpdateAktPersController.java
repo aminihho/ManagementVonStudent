@@ -46,7 +46,7 @@ public class UpdateAktPersController implements ActionListener, KeyListener {
             // Überprüfen ob Person schon Aktivität hat
             String query = "SELECT urz, id_m_a FROM s_m_a WHERE urz = '"+urz+"' AND id_m_a = '"+ id_m_a +"';";
             String[] spalten = {"urz", "id_m_a"};
-            System.out.println(query);
+            
             ArrayList<String> wiederholung = model.selectMultiple(query, spalten);
 
             if (nameAkt == ""){
@@ -97,7 +97,6 @@ public class UpdateAktPersController implements ActionListener, KeyListener {
                 if(mobilitaet){
                     String durchführung, art;
                     int id_s_m_a = model.findId_s_m_a(id_m_a);
-                    System.out.println("id_s_m_a" + id_s_m_a);
 
                     art = view.artAktTxtFld.getText();
 
@@ -147,11 +146,9 @@ public class UpdateAktPersController implements ActionListener, KeyListener {
             String[] aktivitaet = a.split("–");
             nameAkt = aktivitaet[1];
             nameAkt = nameAkt.replaceAll("\\s+","");
-            System.out.println(nameAkt.substring(0, 2));
 
             if (nameAkt.substring(0, 2).equals("M_")){
                 mobilitaet = true;
-                System.out.println("Mobilität einschalten");
                 mobVerwalten(mobilitaet);
             }
 
@@ -203,7 +200,6 @@ public class UpdateAktPersController implements ActionListener, KeyListener {
             // Überprüfen ob Person schon Aktivität hat
             String query = "SELECT urz, id_m_a FROM s_m_a WHERE urz = '"+urz+"' AND id_m_a = '"+ id_m_a +"';";
             String[] spalten = {"urz", "id_m_a"};
-            System.out.println(query);
             ArrayList<String> wiederholung = model.selectMultiple(query, spalten);
 
             if (nameAkt == ""){
@@ -263,7 +259,6 @@ public class UpdateAktPersController implements ActionListener, KeyListener {
                 if(mobilitaet){
                     String durchführung, art;
                     int id_s_m_a = model.findId_s_m_a(id_m_a);
-                    System.out.println("id_s_m_a" + id_s_m_a);
 
                     art = view.artAktTxtFld.getText();
 

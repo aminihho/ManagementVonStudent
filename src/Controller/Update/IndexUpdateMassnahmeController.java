@@ -82,7 +82,6 @@ public class IndexUpdateMassnahmeController implements ActionListener, KeyListen
                 int response = dialog.dialogFensterFragen(view, "Möchten Sie die ausgewählte Maßnahme wirklich löschen?", "Maßnahme löschen");
                 String value  = view.massnahmeTabelle.getValueAt(row, 0).toString();
 
-                System.out.println("value" + value);
 
                 if(response == 0){
                     boolean ergebnis = model.deleteMassnahme(value);
