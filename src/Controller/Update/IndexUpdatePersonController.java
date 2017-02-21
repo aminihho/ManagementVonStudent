@@ -24,9 +24,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.*;
 import java.awt.Point;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JTable;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -359,9 +363,13 @@ public class IndexUpdatePersonController implements MouseListener,KeyListener,Ac
                     String query = model.getScuhQuery(); 
                     query = query.replace("name, vorname, student.urz", "student.urz");
                     
-                    this.getAlleInofrmorationAllerUser(query);
-                    System.out.print("sql--->"+query);
-                    //to do Create Excel-Datei
+                    try {
+                        this.getAlleInofrmorationAllerUser(query);
+                        
+                        //to do Create Excel-Datei
+                    } catch (JSONException ex) {
+                        Logger.getLogger(IndexUpdatePersonController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 
             }
@@ -756,19 +764,60 @@ public class IndexUpdatePersonController implements MouseListener,KeyListener,Ac
     }
     
     
-    private void AddStudentInformationToJsonObjekt(JSONObject mainObject, String object_i,String[] informationStuden, String[][] list_aktivitaten, String[] list_status, String[] list_Bermerkung   ){
+    
+    private ArrayList<ArrayList<String>>  deleteAllNullWertVonDerTabelleAktivitaten (String [][] list_aktivitaten){ 
+         
         
-        
-    for(int i=0; i<informationStuden.length; i++){
-        System.out.print("infoStuden-->"+informationStuden[i]+"\t");
-    }    
-        
+         ArrayList<ArrayList<String>>  tap = new  ArrayList<ArrayList<String>>();int k = 0;int l = 0;
+       for(int i=0; i<list_aktivitaten.length;i++){
+           l = 0; 
+           for(int j=0; j<list_aktivitaten[i].length; j++){
+               if(list_aktivitaten[i][j]!= null){
+                    tap.get(l).add( list_aktivitaten[i][j]); 
+                    //System.out.println(tap[k][l]);
+                    
+               }
+           } 
+           k++; 
+       }      
+      return tap;       
     }
     
+    private void AddStudentInformationToJsonObjekt(JSONObject mainObject, JSONArray array ,String object_i,String[] informationStuden, String[][] list_aktivitaten, String[] list_status, String[] list_Bermerkung ,int indexStudent  ) throws JSONException{
+       Functions fq = new Functions();
+       String[] arrayIndex = new String[0];  
+        ArrayList<ArrayList<String>>  tabAktivitaetOhneNullWert = this.deleteAllNullWertVonDerTabelleAktivitaten(list_aktivitaten); 
+       fq.speicherenArray2DimInJsonObject(tabAktivitaetOhneNullWert, "aktivitaeten"); 
+            
+       JSONArray jsonStatus = fq.speicherenArray1DimInJsonObject(list_status, "status"); 
+       JSONArray jsonBemerkung = fq.speicherenArray1DimInJsonObject(list_Bermerkung, "bermerkung"); 
+       arrayIndex = new String[7]; 
+       
+       arrayIndex[0] = "name";
+       arrayIndex[1]= "vorname";
+       arrayIndex[2]  = "urztuc";
+       arrayIndex[4] = "geburtsdatum" ;
+       arrayIndex[3] = "fakultaet";
+       arrayIndex[6] = "telefon";
+       arrayIndex[5] ="email";
+       for(int i=0 ; i< informationStuden.length; i++){
+           //System.out.println(Integer.toString(i)+"-->"+informationStuden[i]);
+            mainObject.put(arrayIndex[i], informationStuden[i]);
+       }
+       //System.out.println("__________________________");
+       mainObject.put("Bemerkungen", jsonBemerkung);
+       mainObject.put("status", jsonStatus);
+       array.put(indexStudent, mainObject);
+   
+       
+   
+   
+    }
     
+   
     
-    public ArrayList<ArrayList<String>> getAlleInofrmorationAllerUser (String query){
-        JSONObject mainObject = new JSONObject(); 
+    public ArrayList<ArrayList<String>> getAlleInofrmorationAllerUser (String query) throws JSONException{
+        
         Functions fq = new Functions(); 
         ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>() ; 
         GeneralSqlAbfragen function =  new GeneralSqlAbfragen(); 
@@ -776,8 +825,12 @@ public class IndexUpdatePersonController implements MouseListener,KeyListener,Ac
         if(listeStudenten.isEmpty()){
             return result; 
         }
+        
+        JSONArray array = new JSONArray();
+        
         for(int i =0; i< listeStudenten.size(); i++)
         {
+            JSONObject mainObject = new JSONObject(); 
             String urz = listeStudenten.get(i);
             // speiechern alle Information über ein Student
             ArrayList<String> listeInformationStudent = model.ListeInformationStudent(urz); 
@@ -792,10 +845,13 @@ public class IndexUpdatePersonController implements MouseListener,KeyListener,Ac
             ArrayList<ArrayList<String>> listeBermerkungen = model.ListeBermerkungen(urz);
             String [] bemerkungen = fq.arrayListTo1DString( fq.arrayListe2DTo1DArrayListe(listeBermerkungen) );
             String object_i = "Student_"+i;
-           this.AddStudentInformationToJsonObjekt(mainObject, object_i, liste_information_student, aktivitaten, status, bemerkungen);
-            System.out.println("_____________________");
+           this.AddStudentInformationToJsonObjekt(mainObject,array, object_i, liste_information_student, aktivitaten, status, bemerkungen,i);
             
         }
+         JSONObject mainObject = new JSONObject();
+         mainObject.put("studenten", array);
+     //  System.out.println(mainObject.toString()); 
+
         return result;
     }
 

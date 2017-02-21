@@ -5,6 +5,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by annelie on 13.06.16.
@@ -203,8 +206,49 @@ public class Functions {
     }
 
 
+public  JSONArray speicherenArray1DimInJsonObject (String[] arrayWert, String indexname) throws JSONException{
+    
+    if(arrayWert.length <=0 ){
+        return null; 
+    }
+    
+   
+    JSONArray jsonArray = new JSONArray(); 
+    JSONObject obj = new JSONObject();
+        for(int i=0; i< arrayWert.length; i++){
+        
+                String index = indexname+Integer.toString(i) ; 
+                obj.put(index, arrayWert[i]);
+               // String value = index + ":" + arrayWert[i];        
+                //jsonArray.put(value);
+        
+        }
+        jsonArray.put(obj); 
+    return jsonArray ; 
+}
 
 
+
+public  JSONArray speicherenArray2DimInJsonObject (ArrayList<ArrayList<String>> list_aktivitaten, String indexname) throws JSONException{
+    
+    if(list_aktivitaten.size() <=0 ){
+        return null; 
+    }
+    
+   for(int i=0; i<list_aktivitaten.size();i++)
+       for(int j=0; j<list_aktivitaten.get(i).size(); j++){
+            System.out.println(Integer.toString(i)+Integer.toString(j)+list_aktivitaten.get(i).get(j));
+       }
+             /*  if(list_aktivitaten[i].length >3){
+                   System.out.println("5");
+               }else {
+                   System.out.println(list_aktivitaten.length);
+               }  */
+    
+    JSONArray jsonArray = new JSONArray(); 
+     
+    return jsonArray ; 
+}
 
 
 }
