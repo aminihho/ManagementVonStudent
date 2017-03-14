@@ -219,9 +219,7 @@ public  JSONArray speicherenArray1DimInJsonObject (String[] arrayWert, String in
         
                 String index = indexname+Integer.toString(i) ; 
                 obj.put(index, arrayWert[i]);
-               // String value = index + ":" + arrayWert[i];        
-                //jsonArray.put(value);
-        
+      
         }
         jsonArray.put(obj); 
     return jsonArray ; 
@@ -229,26 +227,34 @@ public  JSONArray speicherenArray1DimInJsonObject (String[] arrayWert, String in
 
 
 
-public  JSONArray speicherenArray2DimInJsonObject (ArrayList<ArrayList<String>> list_aktivitaten, String indexname) throws JSONException{
-    
-    if(list_aktivitaten.size() <=0 ){
-        return null; 
+    public JSONArray speicherenArray2DimInJsonObject(ArrayList<ArrayList<String>> list_aktivitaten, String indexname) throws JSONException {
+        JSONArray jsonArray = new JSONArray();
+
+        if (list_aktivitaten.size() <= 0) {
+            return null;
+        }
+
+        for (int i = 0; i < list_aktivitaten.size(); i++) {
+            //  System.out.println(Integer.toString(i)+Integer.toString(j)+list_aktivitaten.get(i).get(j));
+            JSONObject jsonObject = new JSONObject();
+
+            if (list_aktivitaten.get(i).size() == 3) {
+                jsonObject.put("aktivitaet_name", list_aktivitaten.get(i).get(0));
+                jsonObject.put("aktivitaet_id", list_aktivitaten.get(i).get(1));
+                jsonObject.put("aktivitaet_zeitraum", list_aktivitaten.get(i).get(2));
+
+            } else {
+                jsonObject.put("aktivitaet_name", list_aktivitaten.get(i).get(0));
+                jsonObject.put("aktivitaet_id", list_aktivitaten.get(i).get(1));
+                jsonObject.put("aktivitaet_zeitraum", list_aktivitaten.get(i).get(2));
+                jsonObject.put("aktivitaet_durchfuerung", list_aktivitaten.get(i).get(3));
+                jsonObject.put("aktivitaet_art", list_aktivitaten.get(i).get(4));
+            }
+            jsonArray.put(jsonObject);
+        }
+
+        return jsonArray;
     }
-    
-   for(int i=0; i<list_aktivitaten.size();i++)
-       for(int j=0; j<list_aktivitaten.get(i).size(); j++){
-            System.out.println(Integer.toString(i)+Integer.toString(j)+list_aktivitaten.get(i).get(j));
-       }
-             /*  if(list_aktivitaten[i].length >3){
-                   System.out.println("5");
-               }else {
-                   System.out.println(list_aktivitaten.length);
-               }  */
-    
-    JSONArray jsonArray = new JSONArray(); 
-     
-    return jsonArray ; 
-}
 
 
 }

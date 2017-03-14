@@ -764,31 +764,37 @@ public class IndexUpdatePersonController implements MouseListener,KeyListener,Ac
     }
     
     
-    
-    private ArrayList<ArrayList<String>>  deleteAllNullWertVonDerTabelleAktivitaten (String [][] list_aktivitaten){ 
-         
-        
-         ArrayList<ArrayList<String>>  tap = new  ArrayList<ArrayList<String>>();int k = 0;int l = 0;
-       for(int i=0; i<list_aktivitaten.length;i++){
-           l = 0; 
-           for(int j=0; j<list_aktivitaten[i].length; j++){
-               if(list_aktivitaten[i][j]!= null){
-                    tap.get(l).add( list_aktivitaten[i][j]); 
-                    //System.out.println(tap[k][l]);
-                    
-               }
-           } 
-           k++; 
-       }      
-      return tap;       
+    private ArrayList<ArrayList<String>> deleteAllNullWertVonDerTabelleAktivitaten(String[][] list_aktivitaten) {
+
+        ArrayList<ArrayList<String>> liste = new ArrayList<ArrayList<String>>();
+        int l = 0;
+        if (list_aktivitaten.length > 0) {
+            for (int i = 0; i < list_aktivitaten.length; i++) {
+                if (list_aktivitaten[i].length > 0) {
+                    ArrayList<String> tempListe = new ArrayList<String>();
+                    for (int j = 0; j < list_aktivitaten[i].length; j++) {
+                        if (list_aktivitaten[i][j] != null) {
+                            tempListe.add(list_aktivitaten[i][j]);
+                           
+                        }
+                    }
+                    liste.add(tempListe); 
+                    l++;
+                }
+
+            }
+        }
+        else System.out.print("leer Liste"); 
+
+        return liste;
     }
     
     private void AddStudentInformationToJsonObjekt(JSONObject mainObject, JSONArray array ,String object_i,String[] informationStuden, String[][] list_aktivitaten, String[] list_status, String[] list_Bermerkung ,int indexStudent  ) throws JSONException{
        Functions fq = new Functions();
        String[] arrayIndex = new String[0];  
-        ArrayList<ArrayList<String>>  tabAktivitaetOhneNullWert = this.deleteAllNullWertVonDerTabelleAktivitaten(list_aktivitaten); 
-       fq.speicherenArray2DimInJsonObject(tabAktivitaetOhneNullWert, "aktivitaeten"); 
-            
+       ArrayList<ArrayList<String>>  tabAktivitaetOhneNullWert = this.deleteAllNullWertVonDerTabelleAktivitaten(list_aktivitaten); 
+        JSONArray jsonAktivitaeten = fq.speicherenArray2DimInJsonObject(tabAktivitaetOhneNullWert, "aktivitaeten"); 
+    
        JSONArray jsonStatus = fq.speicherenArray1DimInJsonObject(list_status, "status"); 
        JSONArray jsonBemerkung = fq.speicherenArray1DimInJsonObject(list_Bermerkung, "bermerkung"); 
        arrayIndex = new String[7]; 
@@ -805,6 +811,7 @@ public class IndexUpdatePersonController implements MouseListener,KeyListener,Ac
             mainObject.put(arrayIndex[i], informationStuden[i]);
        }
        //System.out.println("__________________________");
+       mainObject.put("aktivitaeten", jsonAktivitaeten);
        mainObject.put("Bemerkungen", jsonBemerkung);
        mainObject.put("status", jsonStatus);
        array.put(indexStudent, mainObject);
@@ -850,7 +857,7 @@ public class IndexUpdatePersonController implements MouseListener,KeyListener,Ac
         }
          JSONObject mainObject = new JSONObject();
          mainObject.put("studenten", array);
-     //  System.out.println(mainObject.toString()); 
+      System.out.println(mainObject.toString()); 
 
         return result;
     }
