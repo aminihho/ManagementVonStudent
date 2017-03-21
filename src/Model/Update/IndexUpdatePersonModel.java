@@ -23,6 +23,7 @@ public class IndexUpdatePersonModel extends Observable {
     private String suchQuery = "SELECT name, vorname, urz FROM student ORDER BY name";
     private String suchQueryUrz = "SELECT urz FROM student ORDER BY name LIMIT 1";
     public boolean suchErgebnis;
+    private ArrayList<String> querysInfo = null; 
 
 
     public IndexUpdatePersonModel(){
@@ -629,7 +630,15 @@ public class IndexUpdatePersonModel extends Observable {
     }
     
     
-   
+    public void setQueryInfo(ArrayList<String> _newListe ){
+        
+        this.querysInfo = _newListe; 
+    }
+    
+    public ArrayList<String> getQueryInfo(){
+        
+        return this.querysInfo; 
+    }
 
 
 }

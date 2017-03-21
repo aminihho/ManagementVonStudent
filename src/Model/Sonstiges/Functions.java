@@ -10,7 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by annelie on 13.06.16.
+ * Created by Kourda and Annelie on 13.06.16.
  */
 public class Functions {
 

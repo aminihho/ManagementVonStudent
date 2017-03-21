@@ -29,7 +29,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- * Created by annelie on 08.11.16.
+ * Created by annelie  and Kourda.
  */
 public class PdfView implements Observer {
     private PdfController controller;
@@ -237,7 +237,7 @@ public class PdfView implements Observer {
         /**
          * Bemerkung
          */
-        if(model.bem){
+        if( model.bem ){
             bemerkung = model.getBemerkung();
             int nrBemerkung = bemerkung.length;
 

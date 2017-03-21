@@ -4,15 +4,19 @@ import Controller.Insert.InsertBemStudentController;
 import Model.Insert.*;
 import Model.Select.SelectEinfachModel;
 import Model.Select.SelectErweitertModel;
+import Model.Sonstiges.ExcelModel;
 import Model.Sonstiges.IndexModel;
 import Model.Sonstiges.LoginModel;
 import Model.Update.*;
 import View.Insert.*;
 import View.Select.SelectEinfachView;
 import View.Select.SelectErweitertView;
+import View.Sonstiges.ExcelView;
 import View.Sonstiges.IndexView;
 import View.Sonstiges.LoginView;
 import View.Update.*;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by annelie on 18.04.16.
@@ -26,7 +30,7 @@ public class Main {
     //n
 
 
-    public static void main(String args[]){
+    public static void main(String args[]) throws JSONException{
 
 
         //LoginView login = new LoginView(new LoginModel(), "InProTUC Datenbank | Login" );
@@ -50,6 +54,10 @@ public class Main {
         //SelectEinfachView fenster = new SelectEinfachView(new SelectEinfachModel(), "fenster");
 
         SelectErweitertView fenster = new SelectErweitertView(new SelectErweitertModel(), "");
+        
+        
+        //JSONObject obj = new JSONObject(); 
+        //ExcelView fenster = new ExcelView(new ExcelModel(obj), "test"); 
 
         //IndexUpdatePersonView fenster = new IndexUpdatePersonView(new IndexUpdatePersonModel(), "fenster");
 

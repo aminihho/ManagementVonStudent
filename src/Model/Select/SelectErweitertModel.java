@@ -154,5 +154,13 @@ public class SelectErweitertModel extends Observable {
 
     }
 
-
+    private String attibute = ""; 
+public void saveAttribut(String attr){
+    
+    this.attibute = attr;
+}
+public String getAttribute(){
+    return this.attibute; 
+}    
+    
 }

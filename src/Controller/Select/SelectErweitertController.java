@@ -28,6 +28,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.sql.Array;
 import java.util.ArrayList;
 
 /**
@@ -47,7 +48,7 @@ public class SelectErweitertController implements ActionListener,KeyListener {
     String SELECT_EINFACH = "Einfache Suche", SELECT_ERWEITERT = "Erweiterte Suche";
     String DATEI_DRUCKEN = "Drucken", DATEI_EXPO = "Exportieren", DATEI_PDF = "Datenbank als Pdf exportieren", DATEI_EXCEL = "Datenbank als Excel-Tabelle exportieren";
 
-    String wahlAttr = "", wahlAttr2 = "", wahlAttr3 = "", wert = "", wert2 = "", wert3 = "";
+    String wahlAttr = "", wahlAttr2 = "", wahlAttr3 = "", wert = "", wert2 = "", wert3 = "",akti_wert= "",akti_wert2= "",akti_wert3= "";
     private boolean search2 = false, search3 = false;
     private boolean student = false, status = false, aktivitaet = false;
 
@@ -154,10 +155,15 @@ public class SelectErweitertController implements ActionListener,KeyListener {
                 Object wert2 = "", wert3 = "";
                 String attachment1 = "", attachment2 = "";
                 String attribut = "", attribut2 = "", attribut3 = "";
+                
+            
+  
+                
 
                 /**
                  * Attribut bei Student
                  */
+               
                 if (wahlAttr.equals("Student - Nachname")){
                     attribut = "name";
                 }
@@ -242,7 +248,7 @@ public class SelectErweitertController implements ActionListener,KeyListener {
                  */
                 if (wahlAttr.equals("Aktivität - Name und ID")){
                     attribut = "aktivitaet.aktivitaet_name";
-
+                    akti_wert = wert.toString();
                     String[] wertArray = wert.toString().split("–");
                     String wertString = wertArray[1];
                     wert = wertString.replaceAll("\\s+","");
@@ -251,7 +257,7 @@ public class SelectErweitertController implements ActionListener,KeyListener {
                 if (wahlAttr2.equals("Aktivität - Name und ID")){
                     attribut2 = "aktivitaet.aktivitaet_name";
                     wert2 = _view.wertCB2.getSelectedItem();
-
+                    akti_wert2 = wert2.toString();
                     String[] wertArray = wert2.toString().split("–");
                     String wertString = wertArray[1];
                     wert2 = wertString.replaceAll("\\s+","");
@@ -260,7 +266,7 @@ public class SelectErweitertController implements ActionListener,KeyListener {
                 if (wahlAttr3.equals("Aktivität - Name und ID")){
                     attribut3 = "aktivitaet.aktivitaet_name";
                     wert3 = _view.wertCB3.getSelectedItem();
-
+                    akti_wert3 = wert3.toString();
                     String[] wertArray = wert3.toString().split("–");
                     String wertString = wertArray[1];
                     wert3 = wertString.replaceAll("\\s+","");
@@ -281,6 +287,42 @@ public class SelectErweitertController implements ActionListener,KeyListener {
                     attribut3 = "massnahme_name";
                     wert3 = _view.wertCB3.getSelectedItem();
                 }
+                
+                   ArrayList<String> infoQuery = new ArrayList<String>(); 
+                if(! wahlAttr.equals("-")){
+                    infoQuery.add(wahlAttr);
+                    if(wahlAttr.equals("Aktivität - Name und ID")){
+                        infoQuery.add(akti_wert.toString());
+                    }
+                    else{
+                         infoQuery.add(wert.toString()); 
+                    } 
+                     
+                   
+                }
+                 if(! wahlAttr2.equals("-")){
+                    infoQuery.add(wahlAttr2); 
+                     if(wahlAttr2.equals("Aktivität - Name und ID")){
+                        infoQuery.add(akti_wert2.toString());
+                    }
+                    else{
+                         infoQuery.add(wert2.toString()); 
+                    }
+                }
+                 if(! wahlAttr3.equals("-")){
+                    infoQuery.add(wahlAttr3); 
+                     if(wahlAttr3.equals("Aktivität - Name und ID")){
+                        infoQuery.add(akti_wert3.toString());
+                    }
+                    else{
+                         infoQuery.add(wert3.toString()); 
+                    }
+                }
+             
+                
+                
+                
+                
 
                 /**
                  * Zuerst wird festgestellt werde Joins für die Erstellung der Query nötig sind
@@ -381,7 +423,7 @@ public class SelectErweitertController implements ActionListener,KeyListener {
 
                         _view.dispose();
                         _model.closeConnection();
-
+                        suchModel.setQueryInfo(infoQuery);
                         IndexUpdatePersonView fenster = new IndexUpdatePersonView(suchModel, "InProTUC Datenbank | Person ändern");
                     }
 
@@ -414,7 +456,7 @@ public class SelectErweitertController implements ActionListener,KeyListener {
 
                             _view.dispose();
                             _model.closeConnection();
-
+                            suchModel.setQueryInfo(infoQuery);
                             IndexUpdatePersonView fenster = new IndexUpdatePersonView(suchModel, "InProTUC Datenbank | Person ändern");
                         }
 
@@ -444,7 +486,7 @@ public class SelectErweitertController implements ActionListener,KeyListener {
 
                             _view.dispose();
                             _model.closeConnection();
-
+                            suchModel.setQueryInfo(infoQuery);
                             IndexUpdatePersonView fenster = new IndexUpdatePersonView(suchModel, "InProTUC Datenbank | Person ändern");
                         }
 
@@ -476,7 +518,7 @@ public class SelectErweitertController implements ActionListener,KeyListener {
 
                             _view.dispose();
                             _model.closeConnection();
-
+                            suchModel.setQueryInfo(infoQuery);
                             IndexUpdatePersonView fenster = new IndexUpdatePersonView(suchModel, "InProTUC Datenbank | Person ändern");
                         }
 
@@ -509,7 +551,7 @@ public class SelectErweitertController implements ActionListener,KeyListener {
 
                             _view.dispose();
                             _model.closeConnection();
-
+                            suchModel.setQueryInfo(infoQuery);
                             IndexUpdatePersonView fenster = new IndexUpdatePersonView(suchModel, "InProTUC Datenbank | Person ändern");
                         }
 
@@ -539,7 +581,7 @@ public class SelectErweitertController implements ActionListener,KeyListener {
 
                             _view.dispose();
                             _model.closeConnection();
-
+                            suchModel.setQueryInfo(infoQuery);
                             IndexUpdatePersonView fenster = new IndexUpdatePersonView(suchModel, "InProTUC Datenbank | Person ändern");
                         }
 
@@ -563,15 +605,15 @@ public class SelectErweitertController implements ActionListener,KeyListener {
                         queryUrz = queryUrz + "ORDER BY name LIMIT 1;";
 
                         boolean queryNotEmpty = _model.queryNotEmpty(query);
-
+                        IndexUpdatePersonModel suchModel = null;
                         if(queryNotEmpty){
-                            IndexUpdatePersonModel suchModel = new IndexUpdatePersonModel();
+                            suchModel = new IndexUpdatePersonModel();
                             suchModel.setSuchQuery(query);
                             suchModel.setSuchQueryUrz(queryUrz);
 
                             _view.dispose();
                             _model.closeConnection();
-
+                            suchModel.setQueryInfo(infoQuery);
                             IndexUpdatePersonView fenster = new IndexUpdatePersonView(suchModel, "InProTUC Datenbank | Person ändern");
                         }
 
@@ -581,6 +623,10 @@ public class SelectErweitertController implements ActionListener,KeyListener {
                         }
                     }
                 }
+                
+             
+                 
+
             }
         }
 
@@ -599,6 +645,7 @@ public class SelectErweitertController implements ActionListener,KeyListener {
 
                 JComboBox cb = (JComboBox) actionEvent.getSource();
                 wahlAttr = (String) cb.getSelectedItem();
+               _model.saveAttribut(wahlAttr);
 
                 if (!wahlAttr.equals("-")) {
                     _view.wertCB.setEnabled(true);
@@ -920,6 +967,10 @@ public class SelectErweitertController implements ActionListener,KeyListener {
             }
         }
 
+                      
+      
+           
+        
     }
 
     @Override
@@ -936,4 +987,9 @@ public class SelectErweitertController implements ActionListener,KeyListener {
     public void keyReleased(KeyEvent keyEvent) {
 
     }
+    
+    
+
+         
+    
 }
