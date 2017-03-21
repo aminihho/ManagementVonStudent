@@ -9,6 +9,7 @@ import Model.Select.SelectErweitertModel;
 import Model.Sonstiges.ExcelModel;
 import View.Sonstiges.ExcelView;
 import com.itextpdf.layout.element.Cell;
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -129,8 +130,6 @@ public class ExcelController extends WindowAdapter implements ActionListener, Ke
             CTTableColumns columns = cttable.addNewTableColumns();
             this.columns = columns;
 
-            // save the data in Excel Tabele before that u create an excel File
-            // this.writeInTableExcelAction();
             this.makeExcelDatei();
             //Create a File Excel
             this.createDirectory();
@@ -140,6 +139,8 @@ public class ExcelController extends WindowAdapter implements ActionListener, Ke
 
             this.wb.write(fileOut);
             fileOut.close();
+            Desktop dt = Desktop.getDesktop(); 
+            dt.open(new File( this.pahtFile));
 
         } catch (FileNotFoundException f) {
             System.out.print(f.toString());
@@ -166,7 +167,8 @@ public class ExcelController extends WindowAdapter implements ActionListener, Ke
     private void makeExcelDatei() throws JSONException, IOException {
         this.makeTitleOfPage();
         this.makeTitleOfTable();
-        int start = this.firstRow + 1;this.global= start; 
+        int start = this.firstRow + 1;
+        this.global = start;
         int indiceaktivitat = 0, indiceStatus = 0;
         String string = this.model.getStudentsInfo().toString();
 
@@ -174,9 +176,9 @@ public class ExcelController extends WindowAdapter implements ActionListener, Ke
         JSONArray students = studentsInfo.getJSONArray("studenten");
 
         for (int i = 0; i < students.length(); i++) {
-            this.indiceCurrentAktivi = 0; 
+            this.indiceCurrentAktivi = 0;
             this.indiceCurrentStatus = 0;
-            this.indiceCurrentBemerkungen = 0; 
+            this.indiceCurrentBemerkungen = 0;
             ArrayList<String> arrayInfo = new ArrayList<>();
             ArrayList<String> arrayaktivitaet = new ArrayList<>();
             ArrayList<String> arrayStatus = new ArrayList<>();
@@ -199,7 +201,7 @@ public class ExcelController extends WindowAdapter implements ActionListener, Ke
             arrayInfo = this.takeElementOfJsonObjectByKey(student, "telefon", arrayInfo);
             // Save the Status of Student in Liste
             if (student.has("status")) {
-                
+
                 JSONArray status = student.getJSONArray("status");
                 JSONObject statusObject = status.getJSONObject(0);
 
@@ -211,16 +213,16 @@ public class ExcelController extends WindowAdapter implements ActionListener, Ke
                 arrayStatus.add("");
             }
             // Save the Bemerkungen in ArrayListe 
-            if(student.has("Bemerkungen")){
-                JSONArray bemerkungen  = student.getJSONArray("Bemerkungen");
+            if (student.has("Bemerkungen")) {
+                JSONArray bemerkungen = student.getJSONArray("Bemerkungen");
                 JSONObject bemerkungenObject = bemerkungen.getJSONObject(0);
 
                 for (int j = 0; j < bemerkungenObject.length(); j++) {
                     String index = "bermerkung" + Integer.toString(j);
                     arrayBemerkungen.add(bemerkungenObject.getString(index).toString());
                 }
-                
-            }else{
+
+            } else {
                 arrayBemerkungen.add("");
             }
             // Save the Aktivitaeten of Student in Liste 
@@ -230,7 +232,7 @@ public class ExcelController extends WindowAdapter implements ActionListener, Ke
                 String aktivitaet_name = "";
                 String aktivitaet_art = "";
                 String aktivitaet_durchfuerung = "";
-                
+
                 JSONArray aktivitaeten = student.getJSONArray("aktivitaeten");
 
                 for (int j = 0; j < aktivitaeten.length(); j++) {
@@ -268,73 +270,72 @@ public class ExcelController extends WindowAdapter implements ActionListener, Ke
                 arrayaktivitaet.add("");
 
             }
-            
-            
-            this.drawInExcel(arrayInfo, arrayStatus,arrayaktivitaet, arrayBemerkungen, style);
-        }
 
+            this.drawInExcel(arrayInfo, arrayStatus, arrayaktivitaet, arrayBemerkungen, style);
+        }
 
     }
 
-    
-    private void drawInExcel(ArrayList<String> info , ArrayList<String> status, ArrayList<String> aktivi, ArrayList<String> bemerkungen, CellStyle style){
+    private void drawInExcel(ArrayList<String> info, ArrayList<String> status, ArrayList<String> aktivi, ArrayList<String> bemerkungen, CellStyle style) {
 
-       
-       
-        int aktiviAnzahl = aktivi.size()/5; 
+        int aktiviAnzahl = aktivi.size() / 5;
         int max = Math.max(status.size(), aktiviAnzahl);
         max = Math.max(max, bemerkungen.size());
-        int nbRepetion = this.global+max;
+        int nbRepetion = this.global + max;
         int i = 0;
-     
-        for(i=this.global; i<nbRepetion; i++){
+
+        for (i = this.global; i < nbRepetion; i++) {
             this.row = this.sheet.createRow(i);
-            if(i== this.global)
-                for(int k=0 ;k<7; k++)
+            if (i == this.global) {
+                for (int k = 0; k < 7; k++) {
                     this.saveDataInExcel(k, info.get(k).toString(), style);
-            
-            int stopStatus = this.global + status.size(); 
-            if(i<stopStatus){
+                }
+            }
+
+            int stopStatus = this.global + status.size();
+            if (i < stopStatus) {
                 this.saveDataInExcel(13, status.get(this.indiceCurrentStatus).toString(), style);
-            } 
-            
-            int stopBemerkung = this.global + bemerkungen.size(); 
-            if( i<stopBemerkung ){
-                 this.saveDataInExcel(12, bemerkungen.get(this.indiceCurrentBemerkungen).toString(), style);
             }
-            int stopIndiceAkti = aktiviAnzahl+this.global; 
+
+            int stopBemerkung = this.global + bemerkungen.size();
+            if (i < stopBemerkung) {
+                this.saveDataInExcel(12, bemerkungen.get(this.indiceCurrentBemerkungen).toString(), style);
+            }
+            int stopIndiceAkti = aktiviAnzahl + this.global;
             int stop = 0;
-            if( i< stopIndiceAkti ){
-                stop = this.indiceCurrentAktivi+5;int indice = 7; 
-                for(int k=this.indiceCurrentAktivi ;k<stop; k++){
+            if (i < stopIndiceAkti) {
+                stop = this.indiceCurrentAktivi + 5;
+                int indice = 7;
+                for (int k = this.indiceCurrentAktivi; k < stop; k++) {
                     this.saveDataInExcel(indice, aktivi.get(k).toString(), style);
-                    indice++; 
-                }           
+                    indice++;
+                }
             }
-            
-            if((i>=stopIndiceAkti)&& (aktiviAnzahl<=max)){
-                for(int k=7; k<12;k++){
+
+            if ((i >= stopIndiceAkti) && (aktiviAnzahl <= max)) {
+                for (int k = 7; k < 12; k++) {
                     this.saveDataInExcel(k, "", style);
                 }
             }
-            if((i>=stopBemerkung)&&(bemerkungen.size()<=max)){
+            if ((i >= stopBemerkung) && (bemerkungen.size() <= max)) {
                 this.saveDataInExcel(12, "", style);
             }
-            if((i>=stopStatus)&&(status.size()<=max)){
+            if ((i >= stopStatus) && (status.size() <= max)) {
                 this.saveDataInExcel(13, "", style);
             }
-            if((i>this.global)&&(i<this.global+max)){
-                  for(int k=0; k<7;k++){
+            if ((i > this.global) && (i < this.global + max)) {
+                for (int k = 0; k < 7; k++) {
                     this.saveDataInExcel(k, "", style);
                 }
             }
-            this.indiceCurrentAktivi =stop; 
-            this.indiceCurrentStatus ++;
-            this.indiceCurrentBemerkungen ++;       
+            this.indiceCurrentAktivi = stop;
+            this.indiceCurrentStatus++;
+            this.indiceCurrentBemerkungen++;
         }
-       
-        this.global= this.global + max; 
+
+        this.global = this.global + max;
     }
+
     private void saveDataInExcel(int indice, String data, CellStyle style) {
         this.column = this.columns.addNewTableColumn();
         this.column.setId(indice);
@@ -344,7 +345,6 @@ public class ExcelController extends WindowAdapter implements ActionListener, Ke
         this.cell.setCellStyle(style);
         this.cell.setCellValue(data);
     }
-
 
     private void createFileName() {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -374,38 +374,32 @@ public class ExcelController extends WindowAdapter implements ActionListener, Ke
         this.sheet.addMergedRegion(new CellRangeAddress(0, 3, 0, 13));
         this.row = this.sheet.createRow(0);
         XSSFCell cell2 = this.row.createCell(0);
-        String title= "Inprotuc Datenbank | Informationen zur Personen \nSuchkriterien: ";
-        ArrayList<String> array2 = this.model.getQueryInfo(); 
-        ArrayList<String> array = this.deleteEmptyValueOArray(array2); 
-        String info = ""; 
-        if( array.size() == 2 ){
-            info = array.get(0)+" / "+array.get(1)+"."; 
+        String title = "Inprotuc Datenbank | Informationen zur Personen \nSuchkriterien: ";
+        ArrayList<String> array2 = this.model.getQueryInfo();
+        ArrayList<String> array = this.deleteEmptyValueOArray(array2);
+        String info = "";
+        if (array.size() == 2) {
+            info = array.get(0) + " / " + array.get(1) + ".";
         }
-        if( array.size() == 4){
-            info = array.get(0)+"/"+array.get(1)+", "; 
-            info = info + array.get(2)+"/"+array.get(3)+".";
+        if (array.size() == 4) {
+            info = array.get(0) + "/" + array.get(1) + ", ";
+            info = info + array.get(2) + "/" + array.get(3) + ".";
         }
-        if (array.size() == 6){
-            info = array.get(0)+"/"+array.get(1)+", "; 
-            info = info + array.get(2)+"/"+array.get(3)+", "; 
-            info = info + array.get(4)+"/"+array.get(5)+".";
+        if (array.size() == 6) {
+            info = array.get(0) + "/" + array.get(1) + ", ";
+            info = info + array.get(2) + "/" + array.get(3) + ", ";
+            info = info + array.get(4) + "/" + array.get(5) + ".";
         }
-        cell2.setCellValue(title+info);
+        cell2.setCellValue(title + info);
         CellStyle cellStyle = this.wb.createCellStyle();
         cellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
         cellStyle.setAlignment(HorizontalAlignment.LEFT);
         // font 
         Font font = this.wb.createFont();
-        font.setFontHeightInPoints((short)14);
+        font.setFontHeightInPoints((short) 14);
         font.setFontName(HSSFFont.FONT_ARIAL);
         font.setBold(true);
         font.setColor(HSSFColor.BLACK.index);
-        /*font.setFontHeightInPoints((short)11);
-        font.setFontName(HSSFFont.FONT_ARIAL);
-        font.setBoldweight(HSSFFont.COLOR_NORMAL);
-        font.setBold(true);
-       font.setColor(HSSFColor.DARK_BLUE.index);*/
-        
 
         cellStyle.setFont(font);
         cell2.setCellStyle(cellStyle);
@@ -415,11 +409,11 @@ public class ExcelController extends WindowAdapter implements ActionListener, Ke
     private void makeTitleOfTable() {
         this.row = this.sheet.createRow(this.firstRow);
         CellStyle cellStyle = this.wb.createCellStyle();
-         // font 
+        // font 
         Font font = this.wb.createFont();
-        font.setFontHeightInPoints((short)10);
+        font.setFontHeightInPoints((short) 10);
         font.setFontName(HSSFFont.FONT_ARIAL);
-  
+
         font.setBold(true);
         font.setColor(HSSFColor.BLACK.index);
 
@@ -438,17 +432,19 @@ public class ExcelController extends WindowAdapter implements ActionListener, Ke
         this.saveDataInExcel(11, "Durchführung", cellStyle);
         this.saveDataInExcel(12, "Bemerkung", cellStyle);
         this.saveDataInExcel(13, "Status", cellStyle);
-   
+
     }
 
-    private ArrayList<String> deleteEmptyValueOArray(ArrayList<String> array){
+    private ArrayList<String> deleteEmptyValueOArray(ArrayList<String> array) {
         ArrayList<String> array2 = new ArrayList<String>();
-        for( int i=0; i< array.size(); i++){
-            if(! array.get(i).isEmpty() )
-                array2.add(array.get(i)); 
+        for (int i = 0; i < array.size(); i++) {
+            if (!array.get(i).isEmpty()) {
+                array2.add(array.get(i));
+            }
         }
-        return array2; 
+        return array2;
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
